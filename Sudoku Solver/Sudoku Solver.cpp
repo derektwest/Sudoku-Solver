@@ -50,6 +50,8 @@ int main(){
         std::cin >> selection_letter>>selection_number>>answer_input;
 
         switch (selection_letter) {
+            case 'x'|| 'X':
+                continue;
             case 'A':
                 switch (selection_number) {                   
                 case 1:
@@ -79,6 +81,7 @@ int main(){
                 case 9:
                     A[8] = answer_input;
                     break;
+
                 default:
                     std::cout << "default" << std::endl;
                 }
@@ -357,11 +360,18 @@ int main(){
                 break;
 
             default:
-                std::cout<<"Incorrect Input: Try Again"<<std::endl;
+                std::cout<<"Incorrect Input: Try Again/ this is incorect. its not checking if selection letter is x or X"<<std::endl;
+                char selection_letter{};
+                int selection_number{};
+                char answer_input{};
         }
 
-    } while (selection_letter != 'q' && selection_letter != 'Q');
+    } while (selection_letter != 'x' && selection_letter != 'X');
 
+    /*std::vector <std::vector<char>> char_vec{ A,B,C,D,E,F,G,H,I };
+    std::vector <std::vector<int>> solve_build;
+    std::vector <int> possible_solutions{1,2,3,4,5,6,7,8,9};
+    for (auto x:)*/
 
 
     return 0;
