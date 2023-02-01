@@ -1,21 +1,11 @@
 // Sudoku Solver.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include <vector>
 
 int main(){
 
-    /*std::vector <int> A{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> B{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> C{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> D{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> E{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> F{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> G{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> H{ 1,2,3,4,5,6,7,8,9 };
-    std::vector <int> I{ 1,2,3,4,5,6,7,8,9 };*/
-
+    // Starting with a blank "board" of char type
     std::vector <char> A(9, ' ');
     std::vector <char> B(9, ' ');
     std::vector <char> C(9, ' ');
@@ -26,12 +16,13 @@ int main(){
     std::vector <char> H(9, ' ');
     std::vector <char> I(9, ' ');
 
-
-
+    // Used to input known numbers of Sudoku puzzle
     char selection_letter{};
     int selection_number{};
     char answer_input{};
 
+    // Do/while loop used to display board and ask for input from user
+    // you can minimize this massive wall of code for ease of view
     do {
         std::cout << A[0] << " " << A[1] << " " << A[2] << " | " << B[0] << " " << B[1] << " " << B[2] << " | " << C[0] << " " << C[1] << " " << C[2] << std::endl;
         std::cout << A[3] << " " << A[4] << " " << A[5] << " | " << B[3] << " " << B[4] << " " << B[5] << " | " << C[3] << " " << C[4] << " " << C[5] << std::endl;
@@ -50,6 +41,8 @@ int main(){
         std::cin >> selection_letter>>selection_number>>answer_input;
 
         switch (selection_letter) {
+            case 'x'|| 'X':
+                continue;
             case 'A':
                 switch (selection_number) {                   
                 case 1:
@@ -79,6 +72,7 @@ int main(){
                 case 9:
                     A[8] = answer_input;
                     break;
+
                 default:
                     std::cout << "default" << std::endl;
                 }
@@ -357,23 +351,35 @@ int main(){
                 break;
 
             default:
-                std::cout<<"Incorrect Input: Try Again"<<std::endl;
+                std::cout<<"Incorrect Input: Try Again/ this is incorect. its not checking if selection letter is x or X"<<std::endl;
+                char selection_letter{};
+                int selection_number{};
+                char answer_input{};
         }
+        // "x" is used to exit loop and begin solving
+    } while (selection_letter != 'x' && selection_letter != 'X');
 
-    } while (selection_letter != 'q' && selection_letter != 'Q');
+    //collect char vectors into their own vector (2d) and convert to int
+    std::vector <std::vector<char>> char_vec = { A,B,C,D,E,F,G,H,I };
+    std::vector <std::vector<int>> int_vec(9); // also 2d but should be 3d, starts with 9 empty "cells" 
+    for (std::size_t i = 0; i < char_vec.size(); ++i) {
+        for (std::size_t j = 0; j < char_vec[i].size(); ++j) {
+            //convert to int here, -48 for utf-8 character set
+            int x = char_vec[i][j] - 48;
+            int_vec[i].push_back(x);
+        }
+    }
 
-
+    // this is where the problems are arising error: C2228
+    // I need int_vec to be 3d for the board to build the way I envisioned it in my mind
+    std::vector <int> possible_solutions{ 1,2,3,4,5,6,7,8,9 };
+    for (size_t i = 0; i < int_vec.size(); ++i) {
+        for (size_t j = 0; j < int_vec[i].size(); ++i) {
+            if (int_vec[i][j] == -16)
+                int_vec[i][j].push_back(3);
+                int_vec[i][j].push_back(possible_solutions);
+        }
+    }
 
     return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
